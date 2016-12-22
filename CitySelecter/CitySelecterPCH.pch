@@ -1,0 +1,18 @@
+//
+//  CitySelecterPCH.pch
+//  CitySelecter
+//
+//  Created by shendan on 16/12/19.
+//  Copyright © 2016年 Mark. All rights reserved.
+//
+
+#ifndef CitySelecterPCH_pch
+#define CitySelecterPCH_pch
+
+#define SCREEN_RECT ([UIScreen mainScreen].bounds)
+#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+#define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+#define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+#define FONT_14 [UIFont systemFontOfSize:14]
+
+#endif /* CitySelecterPCH_pch */
