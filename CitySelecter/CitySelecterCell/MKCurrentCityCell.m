@@ -10,6 +10,15 @@
 
 @implementation MKCurrentCityCell
 
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.textLabel.font = FONT_14;
+    }
+    return self;
+}
+
 - (void)awakeFromNib {
     // Initialization code
 }

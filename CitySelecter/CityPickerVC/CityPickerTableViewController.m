@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSArray *hotCitiesArr;
 @property (strong, nonatomic) NSMutableArray *allCitiesArr;
 @property (strong, nonatomic) NSMutableArray *titleArray;
-
+@property (strong, nonatomic) MKHotCityCell *hotCityCell;
 @property (assign, nonatomic) BOOL isAuthorized;
 
 @end
@@ -160,14 +160,15 @@
             }
             locationCell.selectionStyle = UITableViewCellSelectionStyleNone;
             locationCell.textLabel.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"UserCurrentCity"];
+            locationCell.textLabel.font = FONT_14;
             return locationCell;
         }else if (indexPath.section == 1){
-            MKHotCityCell *hotCityCell = [tableView dequeueReusableCellWithIdentifier:@"HotCityCell"];
-            if (hotCityCell == nil) {
-                hotCityCell = [[MKHotCityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"" withCityArray:_hotCitiesArr];
+            _hotCityCell = [tableView dequeueReusableCellWithIdentifier:@"HotCityCell"];
+            if (_hotCityCell == nil) {
+                _hotCityCell = [[MKHotCityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"" withCityArray:_hotCitiesArr];
             }
-            hotCityCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return hotCityCell;
+            _hotCityCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return _hotCityCell;
         }else{
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
             if (cell == nil) {
@@ -178,16 +179,17 @@
             NSString *cityKey = [_titleArray objectAtIndex:indexPath.section - 2];
             NSArray *array = [_dataDict objectForKey:cityKey];
             cell.textLabel.text = [array objectAtIndex:indexPath.row];
+            cell.textLabel.font = FONT_14;
             return cell;
         }
     }else{
         if (indexPath.section == 0) {
-            MKHotCityCell *hotCityCell = [tableView dequeueReusableCellWithIdentifier:@"HotCityCell"];
-            if (hotCityCell == nil) {
-                hotCityCell = [[MKHotCityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"" withCityArray:_hotCitiesArr];
+            _hotCityCell = [tableView dequeueReusableCellWithIdentifier:@"HotCityCell"];
+            if (_hotCityCell == nil) {
+                _hotCityCell = [[MKHotCityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"" withCityArray:_hotCitiesArr];
             }
-            hotCityCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return hotCityCell;
+            _hotCityCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return _hotCityCell;
         }else{
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
             if (cell == nil) {
@@ -198,6 +200,7 @@
             NSString *cityKey = [_titleArray objectAtIndex:indexPath.section - 1];
             NSArray *array = [_dataDict objectForKey:cityKey];
             cell.textLabel.text = [array objectAtIndex:indexPath.row];
+            cell.textLabel.font = FONT_14;
             return cell;
         }
     }
@@ -221,6 +224,10 @@
         }
         return titleSectionArr;
     }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index{
+    return index;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -268,6 +275,46 @@
             return ceil((float)[_hotCitiesArr count] / 3) * (36 + 15) + 15;
         }else{
             return 42;
+        }
+    }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (_isAuthorized) {
+        if (indexPath.section == 1) {
+            [(MKHotCityCell *)cell buttonClicked:^(UIButton *btn) {
+               NSLog(@"%@",btn.titleLabel.text);
+            }];
+        }
+    }else{
+        if (indexPath.section == 0) {
+            [(MKHotCityCell *)cell buttonClicked:^(UIButton *btn) {
+                NSLog(@"%@",btn.titleLabel.text);
+            }];
+        }
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (_isAuthorized) {
+        if (indexPath.section == 0) {
+            NSLog(@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"UserCurrentCity"]);
+        }else if (indexPath.section == 1){
+            
+        }else{
+            NSString *cityKey = _titleArray[indexPath.section - 2];
+            NSArray *cityArr = _dataDict[cityKey];
+            NSLog(@"%@",cityArr[indexPath.row]);
+        }
+    }else{
+        if (indexPath.section == 0) {
+            
+        }else{
+            NSString *cityKey = _titleArray[indexPath.section - 1];
+            NSArray *cityArr = _dataDict[cityKey];
+            NSLog(@"%@",cityArr[indexPath.row]);
         }
     }
 }
