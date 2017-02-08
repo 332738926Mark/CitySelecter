@@ -5,6 +5,7 @@
 //  Created by shendan on 16/12/19.
 //  Copyright © 2016年 Mark. All rights reserved.
 //
+#define ADDED_CELL_ROWS 2
 
 #import "CityPickerTableViewController.h"
 #import "SearchResultTableViewController.h"
@@ -124,7 +125,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (_isAuthorized) {
-        return [_dataDict allKeys].count + 2;
+        return [_dataDict allKeys].count + ADDED_CELL_ROWS;
     }else{
         return [_dataDict allKeys].count + 1;
     }
@@ -135,7 +136,7 @@
         if (section == 0 || section == 1) {
            return 1;
         }else{
-            NSString *cityKey = _titleArray[section - 2];
+            NSString *cityKey = _titleArray[section - ADDED_CELL_ROWS];
             NSArray *array = _dataDict[cityKey];
             return array.count;
         }
@@ -176,7 +177,7 @@
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
-            NSString *cityKey = [_titleArray objectAtIndex:indexPath.section - 2];
+            NSString *cityKey = [_titleArray objectAtIndex:indexPath.section - ADDED_CELL_ROWS];
             NSArray *array = [_dataDict objectForKey:cityKey];
             cell.textLabel.text = [array objectAtIndex:indexPath.row];
             cell.textLabel.font = FONT_14;
@@ -243,7 +244,7 @@
         }else if (section == 1){
             label.text = @"热门城市";
         }else{
-            label.text = _titleArray[section - 2];
+            label.text = _titleArray[section - ADDED_CELL_ROWS];
         }
     }else{
         if (section == 0) {
@@ -304,7 +305,7 @@
         }else if (indexPath.section == 1){
             
         }else{
-            NSString *cityKey = _titleArray[indexPath.section - 2];
+            NSString *cityKey = _titleArray[indexPath.section - ADDED_CELL_ROWS];
             NSArray *cityArr = _dataDict[cityKey];
             NSLog(@"%@",cityArr[indexPath.row]);
         }
