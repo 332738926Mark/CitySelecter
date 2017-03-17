@@ -15,4 +15,8 @@
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 #define FONT_14 [UIFont systemFontOfSize:14]
 
+#define BUTTON_WIDTH ((SCREEN_WIDTH - 90) / 3)
+#define BUTTON_HIEGHT 36
+#define MARGIN 15
+
 #endif /* CitySelecterPCH_pch */

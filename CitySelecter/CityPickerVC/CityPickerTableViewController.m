@@ -27,6 +27,13 @@
 
 @implementation CityPickerTableViewController
 
+-(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.definesPresentationContext = YES;
@@ -61,20 +68,11 @@
     }
 }
 
-//-(SearchResultTableViewController *)searchResultVC
-//{
-//    if (!_searchResultVC) {
-//        _searchResultVC = [[SearchResultTableViewController alloc] init];
-//        _searchResultVC.dataDict = self.dataDict;
-//    }
-//    return _searchResultVC;
-//}
-
-
 -(void)setupSearchController
 {
     SearchResultTableViewController *searchResultVC = [[SearchResultTableViewController alloc] init];
     searchResultVC.allCitiesArr = self.allCitiesArr;
+    
     _searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultVC];
     _searchController.searchResultsUpdater = searchResultVC;
     _searchController.dimsBackgroundDuringPresentation = NO;
@@ -89,20 +87,17 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - SearchResultsUpdating
 
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     NSLog(@"search");
 }
 
 #pragma mark - SearchBarDelegate
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
-{
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     _searchController.searchBar.showsCancelButton = YES;
     NSArray *subviews;
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
@@ -124,101 +119,66 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (_isAuthorized) {
-        return [_dataDict allKeys].count + ADDED_CELL_ROWS;
-    }else{
-        return [_dataDict allKeys].count + 1;
-    }
+    return [_dataDict allKeys].count + ADDED_CELL_ROWS;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (_isAuthorized) {
-        if (section == 0 || section == 1) {
-           return 1;
-        }else{
-            NSString *cityKey = _titleArray[section - ADDED_CELL_ROWS];
-            NSArray *array = _dataDict[cityKey];
-            return array.count;
-        }
+    if (section < ADDED_CELL_ROWS) {
+        return 1;
     }else{
-        if (section == 0) {
-            return 1;
-        }else{
-            NSString *cityKey = _titleArray[section - 1];
-            NSArray *array = _dataDict[cityKey];
-            return array.count;
-        }
+        NSString *cityKey = _titleArray[section - ADDED_CELL_ROWS];
+        NSArray *array = _dataDict[cityKey];
+        return array.count;
     }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (_isAuthorized) {
-        if (indexPath.section == 0) {
-            UITableViewCell *locationCell = [tableView dequeueReusableCellWithIdentifier:@"location"];
-            if (locationCell == nil) {
-                locationCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"location"];
-            }
-            locationCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (indexPath.section == 0) {
+        UITableViewCell *locationCell = [tableView dequeueReusableCellWithIdentifier:@"location"];
+        if (locationCell == nil) {
+            locationCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"location"];
+        }
+        locationCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (_isAuthorized) {
             locationCell.textLabel.text = [[NSUserDefaults standardUserDefaults] valueForKey:@"UserCurrentCity"];
-            locationCell.textLabel.font = FONT_14;
-            return locationCell;
-        }else if (indexPath.section == 1){
-            _hotCityCell = [tableView dequeueReusableCellWithIdentifier:@"HotCityCell"];
-            if (_hotCityCell == nil) {
-                _hotCityCell = [[MKHotCityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"" withCityArray:_hotCitiesArr];
-            }
-            _hotCityCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return _hotCityCell;
-        }else{
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:@"cell"];
-            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            NSString *cityKey = [_titleArray objectAtIndex:indexPath.section - ADDED_CELL_ROWS];
-            NSArray *array = [_dataDict objectForKey:cityKey];
-            cell.textLabel.text = [array objectAtIndex:indexPath.row];
-            cell.textLabel.font = FONT_14;
-            return cell;
+        } else {
+            locationCell.textLabel.text = @"定位失败,点击";
         }
+        locationCell.textLabel.font = FONT_14;
+        return locationCell;
+    }else if (indexPath.section == 1){
+        _hotCityCell = [tableView dequeueReusableCellWithIdentifier:@"HotCityCell"];
+        if (_hotCityCell == nil) {
+            _hotCityCell = [[MKHotCityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"" withCityArray:_hotCitiesArr];
+        }
+        _hotCityCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return _hotCityCell;
     }else{
-        if (indexPath.section == 0) {
-            _hotCityCell = [tableView dequeueReusableCellWithIdentifier:@"HotCityCell"];
-            if (_hotCityCell == nil) {
-                _hotCityCell = [[MKHotCityCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"" withCityArray:_hotCitiesArr];
-            }
-            _hotCityCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return _hotCityCell;
-        }else{
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-            if (cell == nil) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:@"cell"];
-            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-            NSString *cityKey = [_titleArray objectAtIndex:indexPath.section - 1];
-            NSArray *array = [_dataDict objectForKey:cityKey];
-            cell.textLabel.text = [array objectAtIndex:indexPath.row];
-            cell.textLabel.font = FONT_14;
-            return cell;
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault   reuseIdentifier:@"cell"];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        NSString *cityKey = [_titleArray objectAtIndex:indexPath.section - ADDED_CELL_ROWS];
+        NSArray *array = [_dataDict objectForKey:cityKey];
+        cell.textLabel.text = [array objectAtIndex:indexPath.row];
+        cell.textLabel.font = FONT_14;
+        return cell;
     }
 }
 
 //右侧索引
--(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
-{
+-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     if (_isAuthorized) {
-        NSMutableArray *titleSectionArr = [NSMutableArray arrayWithObjects:@"定位",@"当前",@"热门",nil];
+        NSMutableArray *titleSectionArr = [NSMutableArray arrayWithObjects:@"定位",@"热门",@"当前",nil];
         for (int i=0; i<_titleArray.count; i++) {
             NSString *title = [NSString stringWithFormat:@"    %@",_titleArray[i]];
             [titleSectionArr addObject:title];
         }
         return titleSectionArr;
     }else{
-        NSMutableArray *titleSectionArr = [NSMutableArray arrayWithObjects:@"当前",@"热门",nil];
+        NSMutableArray *titleSectionArr = [NSMutableArray arrayWithObjects:@"热门",@"当前",nil];
         for (int i=0; i<_titleArray.count; i++) {
             NSString *title = [NSString stringWithFormat:@"    %@",_titleArray[i]];
             [titleSectionArr addObject:title];
@@ -227,97 +187,70 @@
     }
 }
 
+//索引
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index{
     return index;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
     header.backgroundColor = RGBACOLOR(235, 235, 235, 1);
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, SCREEN_WIDTH-15, 30)];
     label.font = FONT_14;
     [header addSubview:label];
-    if (_isAuthorized) {
-        if (section == 0) {
-            label.text = @"定位";
-        }else if (section == 1){
-            label.text = @"热门城市";
-        }else{
-            label.text = _titleArray[section - ADDED_CELL_ROWS];
-        }
+    if (section == 0) {
+        label.text = @"定位";
+    }else if (section == 1){
+        label.text = @"热门城市";
     }else{
-        if (section == 0) {
-            label.text = @"热门城市";
-        }else{
-            label.text = _titleArray[section - 1];
-        }
+        label.text = _titleArray[section - ADDED_CELL_ROWS];
     }
     return header;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 30;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (_isAuthorized) {
-        if (indexPath.section == 0) {
-            return 42;
-        }else if (indexPath.section == 1){
-            return ceil((float)[_hotCitiesArr count] / 3) * (36 + 15) + 15;
-        }else{
-            return 42;
-        }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return 42;
+    }else if (indexPath.section == 1){
+        return ceil((float)[_hotCitiesArr count] / 3) * (36 + 15) + 15;
     }else{
-        if (indexPath.section == 0) {
-            return ceil((float)[_hotCitiesArr count] / 3) * (36 + 15) + 15;
-        }else{
-            return 42;
-        }
+        return 42;
     }
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (_isAuthorized) {
-        if (indexPath.section == 1) {
-            [(MKHotCityCell *)cell buttonClicked:^(UIButton *btn) {
-               NSLog(@"%@",btn.titleLabel.text);
-            }];
-        }
-    }else{
-        if (indexPath.section == 0) {
-            [(MKHotCityCell *)cell buttonClicked:^(UIButton *btn) {
-                NSLog(@"%@",btn.titleLabel.text);
-            }];
-        }
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 1) {
+        [(MKHotCityCell *)cell buttonClicked:^(UIButton *btn) {
+//              NSLog(@"%@",btn.titleLabel.text);
+            if(self.pickedCityCallBack){
+                self.pickedCityCallBack(btn.titleLabel.text);
+                [self.navigationController popViewControllerAnimated:NO];
+            }
+        }];
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (_isAuthorized) {
-        if (indexPath.section == 0) {
-            NSLog(@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"UserCurrentCity"]);
-        }else if (indexPath.section == 1){
-            
-        }else{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        if(self.pickedCityCallBack){
+            self.pickedCityCallBack([[NSUserDefaults standardUserDefaults] valueForKey:@"UserCurrentCity"]);
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+    }else if (indexPath.section == 1){
+        NSLog(@"%@",_hotCitiesArr[indexPath.row]);
+    }else{
             NSString *cityKey = _titleArray[indexPath.section - ADDED_CELL_ROWS];
             NSArray *cityArr = _dataDict[cityKey];
-            NSLog(@"%@",cityArr[indexPath.row]);
+//            NSLog(@"%@",cityArr[indexPath.row]);
+            if(self.pickedCityCallBack){
+                self.pickedCityCallBack(cityArr[indexPath.row]);
+                [self.navigationController popViewControllerAnimated:NO];
+            }
         }
-    }else{
-        if (indexPath.section == 0) {
-            
-        }else{
-            NSString *cityKey = _titleArray[indexPath.section - 1];
-            NSArray *cityArr = _dataDict[cityKey];
-            NSLog(@"%@",cityArr[indexPath.row]);
-        }
-    }
 }
 
 @end

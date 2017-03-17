@@ -6,10 +6,6 @@
 //  Copyright © 2016年 Mark. All rights reserved.
 //
 
-#define BUTTON_WIDTH ((SCREEN_WIDTH - 90) / 3)
-#define BUTTON_HIEGHT 36
-#define MARGIN 15
-
 #import "MKHotCityCell.h"
 
 @implementation MKHotCityCell
@@ -54,9 +50,9 @@
     self.hotCityBtnClick = block;
 }
 
-- (void)awakeFromNib {
-    // Initialization code
-}
+//- (void)awakeFromNib {
+//    // Initialization code
+//}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

@@ -17,8 +17,7 @@
 
 @implementation LocationManager
 
-+(LocationManager *)sharedLocationManager
-{
++(LocationManager *)sharedLocationManager {
     static LocationManager *manager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -27,8 +26,7 @@
     return manager;
 }
 
--(instancetype)init
-{
+-(instancetype)init {
     if (self = [super init]) {
         _localService = [[BMKLocationService alloc] init];
         _localService.delegate = self;
@@ -42,24 +40,21 @@
     return self;
 }
 
--(void)startLocation
-{
+-(void)startLocation {
     if ([self isAuthorizeOpenLocation]) {
         [_localService startUserLocationService];
 
     }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"定位服务未开启" message:@"请在设置中开启定位服务" delegate:self cancelButtonTitle:nil otherButtonTitles:@"知道了", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"定位服务未开启" message:@"请在设置中开启定位服务" delegate:self cancelButtonTitle:@"暂不" otherButtonTitles:@"去设置", nil];
         [alert show];
     }
 }
 
--(void)stopLocation
-{
+-(void)stopLocation {
     [_localService stopUserLocationService];
 }
 
--(BOOL)isAuthorizeOpenLocation
-{
+-(BOOL)isAuthorizeOpenLocation {
     if ([CLLocationManager locationServicesEnabled] &&
         ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways ||
          [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse ||
@@ -69,13 +64,11 @@
     return NO;
 }
 
--(void)didUpdateUserHeading:(BMKUserLocation *)userLocation
-{
+-(void)didUpdateUserHeading:(BMKUserLocation *)userLocation {
     
 }
 
--(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
-{
+-(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation {
     self.latitude = userLocation.location.coordinate.latitude;
     self.longitude = userLocation.location.coordinate.longitude;
     CLLocationCoordinate2D coor = (CLLocationCoordinate2D){self.latitude, self.longitude};
@@ -102,6 +95,17 @@
     }else{
         [self startLocation];
         NSLog(@"抱歉，未找到结果");
+    }
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSLog(@"%ld",(long)buttonIndex);
+    if (buttonIndex == 1) { // 去设置
+        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url];
+        }
     }
 }
 

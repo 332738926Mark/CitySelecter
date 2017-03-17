@@ -22,6 +22,7 @@
 		174B5AFC1DFA7C6200B4817D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 174B5AFB1DFA7C6200B4817D /* CoreTelephony.framework */; };
 		174B5AFE1DFA7C8700B4817D /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 174B5AFD1DFA7C8700B4817D /* libsqlite3.0.tbd */; };
 		174B5B001DFA7C9E00B4817D /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 174B5AFF1DFA7C9E00B4817D /* libstdc++.6.0.9.tbd */; };
+		1773BDD21E779B40005CCBED /* MKRecentHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1773BDD11E779B40005CCBED /* MKRecentHistoryCell.m */; };
 		17ED38771DFFB9D90038DD84 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 17ED38761DFFB9D90038DD84 /* mapapi.bundle */; };
 		17F73A8D1E0903A60003D100 /* SearchResultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F73A8C1E0903A60003D100 /* SearchResultTableViewController.m */; };
 		17F805331E07693A00DF1DBF /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 17F805241E07693A00DF1DBF /* AppDelegate.mm */; };
@@ -55,6 +56,8 @@
 		174B5AFB1DFA7C6200B4817D /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		174B5AFD1DFA7C8700B4817D /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		174B5AFF1DFA7C9E00B4817D /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		1773BDD01E779B40005CCBED /* MKRecentHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKRecentHistoryCell.h; sourceTree = "<group>"; };
+		1773BDD11E779B40005CCBED /* MKRecentHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKRecentHistoryCell.m; sourceTree = "<group>"; };
 		17ED38761DFFB9D90038DD84 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
 		17F73A8B1E0903A60003D100 /* SearchResultTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultTableViewController.h; sourceTree = "<group>"; };
 		17F73A8C1E0903A60003D100 /* SearchResultTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultTableViewController.m; sourceTree = "<group>"; };
@@ -199,6 +202,8 @@
 				17F8053E1E076D3800DF1DBF /* MKHotCityCell.m */,
 				17F805401E076EFB00DF1DBF /* MKCurrentCityCell.h */,
 				17F805411E076EFB00DF1DBF /* MKCurrentCityCell.m */,
+				1773BDD01E779B40005CCBED /* MKRecentHistoryCell.h */,
+				1773BDD11E779B40005CCBED /* MKRecentHistoryCell.m */,
 			);
 			path = CitySelecterCell;
 			sourceTree = "<group>";
@@ -247,7 +252,7 @@
 		174B5AC21DFA7AB600B4817D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Mark;
 				TargetAttributes = {
 					174B5AC91DFA7AB600B4817D = {
@@ -294,6 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				17F8053B1E07693A00DF1DBF /* ViewController.m in Sources */,
+				1773BDD21E779B40005CCBED /* MKRecentHistoryCell.m in Sources */,
 				17F8054D1E07AA0400DF1DBF /* ChineseToPinyin.m in Sources */,
 				17F805381E07693A00DF1DBF /* LocationManager.m in Sources */,
 				17F805421E076EFB00DF1DBF /* MKCurrentCityCell.m in Sources */,
@@ -340,8 +346,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -383,8 +391,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

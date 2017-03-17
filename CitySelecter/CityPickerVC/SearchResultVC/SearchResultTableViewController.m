@@ -16,6 +16,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+        [self setEdgesForExtendedLayout:UIRectEdgeNone];
+    }
 }
 
 -(NSMutableArray *)resultArr
@@ -34,7 +38,6 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
     return self.resultArr.count;
 }
 
@@ -54,7 +57,6 @@
 {
     NSString *searchString = searchController.searchBar.text;
     if (searchString.length > 0 && ![searchString isEqualToString:@""]) {
-//        NSPredicate *searchPredicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchString];
         [_resultArr removeAllObjects];
         for (int i=0; i<_allCitiesArr.count; i++) {
             if ([[ChineseToPinyin pinyinFromChiniseString:_allCitiesArr[i]] hasPrefix:[searchString uppercaseString]] || [_allCitiesArr[i] hasPrefix:searchString]) {
