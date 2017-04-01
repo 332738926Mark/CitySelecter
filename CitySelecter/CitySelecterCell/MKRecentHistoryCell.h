@@ -14,4 +14,8 @@
 @property (strong, nonatomic) UIButton *secondButton;
 @property (strong, nonatomic) UIButton *thirdButton;
 
+@property (nonatomic, copy) void (^buttonClickBlock)(UIButton *button);
+
+- (void)buttonWhenClick:(void(^)(UIButton *button))block;
+
 @end

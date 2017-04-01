@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "CityPickerTableViewController.h"
 #import "ViewController.h"
 #import "LocationManager.h"
 
@@ -30,7 +29,7 @@
         NSLog(@"manager start failed!");
     }
     
-    [[LocationManager sharedLocationManager] startLocation];
+   // [[LocationManager sharedLocationManager] startLocation];
     
     return YES;
 }

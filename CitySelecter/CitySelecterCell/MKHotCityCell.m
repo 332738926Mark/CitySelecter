@@ -14,7 +14,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self initButtonWithArrays:cities];
-
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
 }
@@ -24,7 +24,7 @@
     if (cities.count > 0) {
         for (int i = 0; i<cities.count; i++) {
             UIButton *button = [[UIButton alloc] init];
-            button.frame = CGRectMake(MARGIN+(i%3)*(BUTTON_WIDTH+MARGIN), MARGIN+(i/3)*(MARGIN+BUTTON_HIEGHT), BUTTON_WIDTH, BUTTON_HIEGHT);
+            button.frame = CGRectMake(MARGIN+(i%3)*(Button_Width+MARGIN), MARGIN+(i/3)*(MARGIN+Button_Height), Button_Width, Button_Height);
             [button setTitle:cities[i] forState:UIControlStateNormal];
             button.titleLabel.font = FONT_14;
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

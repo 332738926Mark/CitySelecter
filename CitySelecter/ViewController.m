@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "CityPickerTableViewController.h"
+#import "CityPickerViewController.h"
 
 @interface ViewController ()<UITextFieldDelegate>
 
@@ -30,16 +30,15 @@
 }
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    
-    CityPickerTableViewController *picker = [[CityPickerTableViewController alloc] init];
+//    NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+//                                    [UIColor clearColor],NSForegroundColorAttributeName,
+//                                    [UIFont systemFontOfSize:1],NSFontAttributeName, nil];
+//    [[UIBarButtonItem appearance] setTitleTextAttributes:textAttributes forState: UIControlStateNormal];
+    CityPickerViewController *picker = [[CityPickerViewController alloc] init];
     picker.pickedCityCallBack = ^(NSString *city){
         textField.text = city;
     };
-    NSDictionary *textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [UIColor clearColor],NSForegroundColorAttributeName,
-                                    [UIFont systemFontOfSize:1],NSFontAttributeName, nil];
-    [[UIBarButtonItem appearance] setTitleTextAttributes:textAttributes forState: UIControlStateNormal];
-    [self.navigationController pushViewController:picker animated:NO];
+    [self presentViewController:picker animated:UIViewAnimationTransitionCurlUp completion:nil];
     return NO;
 }
 

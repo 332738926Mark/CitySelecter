@@ -13,10 +13,15 @@
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
-#define FONT_14 [UIFont systemFontOfSize:14]
 
-#define BUTTON_WIDTH ((SCREEN_WIDTH - 90) / 3)
-#define BUTTON_HIEGHT 36
+#define FONT_14 [UIFont systemFontOfSize:14]
+#define StatusBar_Height 20
+#define StatusBar_AND_NAV 64
+#define Table_Height SCREEN_HEIGHT-StatusBar_AND_NAV
+#define Button_Width ((SCREEN_WIDTH - 90) / 3)
+#define Button_Height 36
 #define MARGIN 15
+
+#define CurrentCity (@"UserCurrentCity")
 
 #endif /* CitySelecterPCH_pch */

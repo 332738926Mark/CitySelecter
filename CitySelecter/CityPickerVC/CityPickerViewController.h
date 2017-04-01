@@ -1,16 +1,16 @@
 //
-//  CityPickerTableViewController.h
+//  CityPickerViewController.h
 //  CitySelecter
 //
-//  Created by shendan on 16/12/19.
-//  Copyright © 2016年 Mark. All rights reserved.
+//  Created by shendan on 2017/3/31.
+//  Copyright © 2017年 Mark. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 typedef void(^pickedCityCallBackBlock)(NSString *city);
 
-@interface CityPickerTableViewController : UITableViewController
+@interface CityPickerViewController : UIViewController
 
 /**
  *  @param 城市数据源
